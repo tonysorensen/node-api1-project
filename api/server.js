@@ -48,7 +48,7 @@ server.post("/api/users", async (req, res) => {
         message: "Please provide name and bio for the user",
       });
     } else {
-      const addUser = await Users.create(newUser);
+      const addUser = await Users.insert(newUser);
       res.status(201).json(addUser);
     }
   } catch (err) {
@@ -82,7 +82,7 @@ server.put("/api/users/:id", async (req, res) => {
 });
 //DELETE /api/users/:id - Removes hte user with the specified id and returns the deleted user
 server.delete("/api/users/:id", (req, res) => {
-  Users.delete(req.params.id)
+  Users.remove(req.params.id)
     .then((deletedUser) => {
       if (!deletedUser) {
         res.status(404).json({

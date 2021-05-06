@@ -22,7 +22,23 @@ server.get("/api/users", (req, res) => {
 });
 
 //GET /api/users/:id - returns the user with specified id
-//
+server.get("/api/users/:id", async (req, res) => {
+  try {
+    const user = await Users.findById(req.params.id);
+    if (!user) {
+      res.status(404).json({
+        message: "The user with the specified ID does not exist",
+      });
+    } else {
+      res.json(user);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "The user information could not be retrieved",
+    });
+  }
+});
+
 //POST /api/users - creates user with info sent inside request body
 //
 //PUT /api/users/:id - Updates the user with the specified id using data from request body and returns the modified user
